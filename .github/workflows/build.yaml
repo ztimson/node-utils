@@ -1,0 +1,53 @@
+name: Publish Library
+run-name: Publish Library
+
+on:
+    push:
+
+jobs:
+    build:
+        name: Build NPM Project
+        runs-on: ubuntu-latest
+        container: node:alpine
+        steps:
+            - name: Clone Repository
+              uses: ztimson/actions/clone@develop
+
+            - name: Install & Build
+              run: npm i && npm run build
+
+            - name: Upload to Registry
+              uses: ztimson/actions/npm/publish@develop
+
+            - name: Upload to NPM
+              uses: ztimson/actions/npm/publish@develop
+              with:
+                  owner: ztimson
+                  registry: https://registry.npmjs.org/
+                  token: ${{secrets.NPM_TOKEN}}
+    tag:
+        name: Tag Version
+        needs: build
+        if: ${{github.ref_name}} == 'release'
+        runs-on: ubuntu-latest
+        container: node:alpine
+        steps:
+            -   name: Clone Repository
+                uses: ztimson/actions/clone@develop
+
+            -   name: Get Version Number
+                run: echo "VERSION=$(cat package.json | grep version | grep -Eo ':.+' | grep -Eo '[[:alnum:]\.\/\-]+')" >> $GITHUB_ENV
+
+            -   name: Tag Version
+                uses: ztimson/actions/tag@develop
+                with:
+                    tag: ${{env.VERSION}}
+
+    docs:
+        name: Publish CDN & Docs
+        needs: build
+        uses: ztimson/actions/.github/workflows/docker.yaml@develop
+        with:
+            name: ztimson/css-utils
+            repository: ${{github.server_url}}/${{github.repository}}.git
+            pass: ${{secrets.DEPLOY_TOKEN}}
