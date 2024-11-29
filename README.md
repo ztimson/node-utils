@@ -3,7 +3,7 @@
   <br />
 
   <!-- Logo -->
-  <img src="https://git.zakscode.com/repo-avatars/77dbab78e5fb3302dc9e751c4d6315a64df8d3a714d5cd5719b0dc39e6619119" alt="Logo" width="200" height="200">
+  <img src="https://git.zakscode.com/repo-avatars/896dde302026e918e87e40f1059c1169c30d6844feb08e509ed2265eb8a9c90b" alt="Logo" width="200" height="200">
 
   <!-- Title -->
 ### @ztimson/node-utils
