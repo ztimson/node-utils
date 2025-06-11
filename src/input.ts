@@ -1,4 +1,4 @@
-import readline from 'node:readline';
+import readline from 'readline';
 
 /**
  * Retrieve input from the CLI
