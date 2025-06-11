@@ -15,9 +15,9 @@
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
+			"types": "./dist/index.d.ts",
 			"import": "./dist/index.mjs",
-			"require": "./dist/index.cjs",
-			"types": "./dist/index.d.ts"
+			"require": "./dist/index.cjs"
 		}
 	},
 	"scripts": {
@@ -26,11 +26,11 @@
 		"watch": "npx vite build --watch"
 	},
 	"devDependencies": {
-		"@types/node": "^22.10.1",
-		"typedoc": "^0.26.7",
-		"typescript": "^5.3.3",
-		"vite": "^5.0.12",
-		"vite-plugin-dts": "^3.7.2"
+		"@types/node": "^24.0.0",
+		"typedoc": "^0.28.5",
+		"typescript": "^5.8.3",
+		"vite": "^6.3.5",
+		"vite-plugin-dts": "^4.5.4"
 	},
 	"files": [
 		"dist"
