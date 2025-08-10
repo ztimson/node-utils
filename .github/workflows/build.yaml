@@ -48,6 +48,6 @@ jobs:
         needs: build
         uses: ztimson/actions/.github/workflows/docker.yaml@develop
         with:
-            name: ztimson/css-utils
+            name: ztimson/node-utils
             repository: ${{github.server_url}}/${{github.repository}}.git
             pass: ${{secrets.DEPLOY_TOKEN}}
