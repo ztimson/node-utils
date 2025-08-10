@@ -16,15 +16,19 @@ jobs:
             - name: Install & Build
               run: npm i && npm run build
 
-            - name: Upload to Registry
-              uses: ztimson/actions/npm/publish@develop
+            - name: Publish Library
+              run: |
+                if [ "${{github.ref_name}}" = "master" ]; then
+                  REGISTRY="${{github.server_url}}/api/packages/${{github.repository_owner}}/npm/"
+                  npm set registry "$REGISTRY"
+                  npm set $(echo $REGISTRY | sed s%http:%% | sed s%https:%% ):_authToken "${{secrets.DEPLOY_TOKEN}}"
+                  npm publish || echo "Failed to publish"
 
-            - name: Upload to NPM
-              uses: ztimson/actions/npm/publish@develop
-              with:
-                  owner: ztimson
-                  registry: https://registry.npmjs.org/
-                  token: ${{secrets.NPM_TOKEN}}
+                  REGISTRY="https://registry.npmjs.org/"
+                  npm set registry "$REGISTRY"
+                  npm set $(echo $REGISTRY | sed s%http:%% | sed s%https:%% ):_authToken "${{secrets.NPM_TOKEN}}"
+                  npm publish || echo "Failed to publish"
+                fi
     tag:
         name: Tag Version
         needs: build
@@ -46,22 +50,8 @@ jobs:
     docs:
         name: Publish CDN & Docs
         needs: build
-        runs-on: ubuntu-latest
-        container:
-            image: node:22
-            volumes:
-                - /tmp/gitea:/tmp/gitea
-        steps:
-            - name: Publish Library
-              run: |
-                if [ "${{github.ref_name}}" = "master" ]; then
-                  REGISTRY="${{github.server_url}}/api/packages/${{github.repository_owner}}/npm/"
-                  npm set registry "$REGISTRY"
-                  npm set $(echo $REGISTRY | sed s%http:%% | sed s%https:%% ):_authToken "${{secrets.DEPLOY_TOKEN}}"
-                  npm publish || echo "Failed to publish"
-
-                  REGISTRY="https://registry.npmjs.org/"
-                  npm set registry "$REGISTRY"
-                  npm set $(echo $REGISTRY | sed s%http:%% | sed s%https:%% ):_authToken "${{secrets.NPM_TOKEN}}"
-                  npm publish || echo "Failed to publish"
-                fi
+        uses: ztimson/actions/.github/workflows/docker.yaml@develop
+        with:
+            name: ztimson/node-utils
+            repository: ${{github.server_url}}/${{github.repository}}.git
+            pass: ${{secrets.DEPLOY_TOKEN}}
