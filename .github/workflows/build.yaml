@@ -55,8 +55,6 @@ jobs:
             - name: Publish Library
               run: |
                 if [ "${{github.ref_name}}" = "master" ]; then
-                  cd lib
-
                   REGISTRY="${{github.server_url}}/api/packages/${{github.repository_owner}}/npm/"
                   npm set registry "$REGISTRY"
                   npm set $(echo $REGISTRY | sed s%http:%% | sed s%https:%% ):_authToken "${{secrets.DEPLOY_TOKEN}}"
