@@ -46,8 +46,24 @@ jobs:
     docs:
         name: Publish CDN & Docs
         needs: build
-        uses: ztimson/actions/.github/workflows/docker.yaml@develop
-        with:
-            name: ztimson/node-utils
-            repository: ${{github.server_url}}/${{github.repository}}.git
-            pass: ${{secrets.DEPLOY_TOKEN}}
+        runs-on: ubuntu-latest
+        container:
+            image: node:22
+            volumes:
+                - /tmp/gitea:/tmp/gitea
+        steps:
+            - name: Publish Library
+              run: |
+                if [ "${{github.ref_name}}" = "master" ]; then
+                  cd lib
+
+                  REGISTRY="${{github.server_url}}/api/packages/${{github.repository_owner}}/npm/"
+                  npm set registry "$REGISTRY"
+                  npm set $(echo $REGISTRY | sed s%http:%% | sed s%https:%% ):_authToken "${{secrets.DEPLOY_TOKEN}}"
+                  npm publish || echo "Failed to publish"
+
+                  REGISTRY="https://registry.npmjs.org/"
+                  npm set registry "$REGISTRY"
+                  npm set $(echo $REGISTRY | sed s%http:%% | sed s%https:%% ):_authToken "${{secrets.NPM_TOKEN}}"
+                  npm publish || echo "Failed to publish"
+                fi
