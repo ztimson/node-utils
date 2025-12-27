@@ -1,17 +1,18 @@
 {
 	"include": ["src"],
 	"compilerOptions": {
-		"target": "ESNext",
-		"useDefineForClassFields": true,
-		"module": "ESNext",
-		"lib": ["ESNext"],
+		"target": "ES2022",
+		"module": "NodeNext",
+		"lib": ["ES2022"],
 		"skipLibCheck": true,
-		"moduleResolution": "Bundler",
+		"moduleResolution": "NodeNext",
 		"resolveJsonModule": true,
-		"isolatedModules": true,
 		"declaration": true,
+		"declarationMap": true,
 		"outDir": "./dist",
 		"rootDir": "./src",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
 		"strict": true
 	}
 }

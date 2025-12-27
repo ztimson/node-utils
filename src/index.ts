@@ -1,2 +1,2 @@
-export * from './cli';
-export * from './input';
+export * from './cli.js';
+export * from './input.js';
