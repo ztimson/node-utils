@@ -10,27 +10,24 @@
 		"type": "git",
 		"url": "git.zakscode.com:ztimson/node-utils"
 	},
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.mjs",
+	"type": "module",
+	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"import": "./dist/index.mjs",
-			"require": "./dist/index.cjs"
+			"import": "./dist/index.js"
 		}
 	},
 	"scripts": {
-		"build": "npx tsc && npx vite build",
+		"build": "tsc",
 		"docs": "typedoc --cleanOutputDir false --out ./docs --entryPoints src/**/*.ts --readme none",
-		"watch": "npx vite build --watch"
+		"watch": "tsc --watch"
 	},
 	"devDependencies": {
 		"@types/node": "^24.0.0",
 		"typedoc": "^0.28.5",
-		"typescript": "^5.8.3",
-		"vite": "^6.3.5",
-		"vite-plugin-dts": "^4.5.4"
+		"typescript": "^5.8.3"
 	},
 	"files": [
 		"dist"
