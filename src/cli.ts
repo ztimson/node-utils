@@ -4,7 +4,7 @@ export function $(str: TemplateStringsArray, ...args: string[]): Promise<string>
 	let cmd = str.reduce((acc, part, i) => acc + part + (args[i] || ''), '');
 	return new Promise((res, rej) => exec(cmd, (err, stdout, stderr) => {
 		if(err) return rej(stderr || err);
-		return res((stdout || stderr).trim());
+		return res(stdout?.trim() || stderr?.trim());
 	}))
 }
 
