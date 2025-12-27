@@ -1,5 +1,4 @@
-import {execSync} from 'child_process';
-import {spawn} from 'node:child_process';
+import {execSync, spawn} from 'node:child_process';
 
 export function $(str: TemplateStringsArray, ...args: string[]): Promise<string> {
 	let cmd = str.reduce((acc, part, i) => acc + part + (args[i] || ''), '');
