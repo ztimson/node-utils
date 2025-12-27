@@ -10,10 +10,7 @@ export default defineConfig({
 			fileName: (format: string) => format === 'es' ? 'index.mjs' : 'index.cjs'
 		},
 		rollupOptions: {
-			external: [
-				'child_process',
-				'readline'
-			],
+			external: (id) => !id.startsWith('.') && !id.startsWith('/')
 		},
 		emptyOutDir: true,
 		minify: false,
